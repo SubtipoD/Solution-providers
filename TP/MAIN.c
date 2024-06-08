@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "linked list.c"
+#include "linkedList.c"
+#include "variablesDelSistema.c"
+#include "EstudiantesYmaterias.c"
+
 
 
 int main()

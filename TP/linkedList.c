@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "EstudiantesYmaterias.c"
 
 typedef struct node {
     int data;
@@ -83,7 +84,7 @@ void delete_first(linked_list* ll)
     ll->head = new_head;
 
     if (is_empty(ll)) {
-        ll->tail == NULL;
+        ll->tail = NULL;
     }
 }
 
