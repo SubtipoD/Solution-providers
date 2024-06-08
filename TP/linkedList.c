@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "EstudiantesYmaterias.c"
 
 typedef struct node {
     int data;
