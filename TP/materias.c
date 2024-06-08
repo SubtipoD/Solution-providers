@@ -63,8 +63,8 @@ void dar_alta_materia(linked_list_materia* ll, char nombre[50], float nota, char
 void modificar_materia(linked_list_materia* ll, char nombre_a_buscar[50], char nuevo_nombre[50], float nueva_nota, char nueva_fecha_cursada[50]) {
     materia* materia_actual = ll->head;
 
-    while (materia_actual->next_materia != NULL) {
-        if (strcmp(nombre_a_buscar, nuevo_nombre) == 0) {
+    while (materia_actual != NULL) {
+        if (strcmp(nombre_a_buscar, materia_actual->nombre) == 0) {
             printf("Modificando valores de la materia '%s' \n", nombre_a_buscar);
             strcpy(materia_actual->nombre, nuevo_nombre);
             materia_actual->nota = nueva_nota;
@@ -72,6 +72,8 @@ void modificar_materia(linked_list_materia* ll, char nombre_a_buscar[50], char n
 
             return;
         }
+
+        materia_actual = materia_actual->next_materia;
     }
 
     printf("Materia '%s' no encontrada.\n", nombre_a_buscar);
@@ -108,12 +110,18 @@ void eliminar_materia(linked_list_materia* ll, char nombre[50]) {
                 return;
             }
         }
+
+        materia_actual = materia_actual->next_materia;
     }
 
     return;
 }
 
 void listar_materias(linked_list_materia* ll) {
+    if (lista_materia_vacia(ll)) {
+        printf("No hay materias definidas.\n");
+    }
+
     materia* materia_actual = ll->head;
 
     while (materia_actual != NULL) {
@@ -121,6 +129,8 @@ void listar_materias(linked_list_materia* ll) {
         printf("Nota: %.2f\n", materia_actual->nota);
         printf("Fecha de cursada: %s\n", materia_actual->fecha_cursada);
         printf("\n");
+
+        materia_actual = materia_actual->next_materia;
     }
 
     return;
