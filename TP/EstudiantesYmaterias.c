@@ -2,16 +2,16 @@
 #include <stdlib.h>
 
 
-// typedef struct materias{
-//     char nombre[100]; 
-//     int nota; 
-//     char fechaCursada[100]; 
-// }materias;
+// [ Estudiante ] funciona como nodo
+typedef struct estudiante {
+	char nombre[50];
+	int  edad;
+	linked_list_materias materias;
+	struct estudiante* next_estudiante;
+} estudiante;
 
-// typedef struct Estudiantes{
-//     linked_list * Estudiantes;
-//     char nombre[100];
-//     int edad;
-// }Estudiantes;
-
-
+// [ Lista estudiantes ]
+typedef struct linked_list_estudiantes {
+	estudiante* head;
+	estudiante* tail;
+} linked_list_estudiantes;

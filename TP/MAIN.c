@@ -3,8 +3,11 @@
 #include "linkedList.c"
 #include "variablesDelSistema.c"
 #include "EstudiantesYmaterias.c"
-
-
+/* MATERIAS
+-Dar de alta, modificar, eliminar y listar estudiantes
+-Buscar estudiantes por nombre
+-Buscar estudiantes por rango de edad
+*/
 
 int main()
 {
