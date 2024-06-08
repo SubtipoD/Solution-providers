@@ -12,11 +12,12 @@ typedef struct materia {
 } materia;
 
 // [ Lista materias ]
-typedef struct linked_list_materia {
+typedef struct linked_list_materias {
 	materia* head;
 	materia* tail;
-} linked_list_materia;
+} linked_list_materias;
 
+// Crear materia
 materia* crear_materia(char nombre[50], float nota, char fecha_cursada[50])
 {
     materia* nueva_materia = malloc(sizeof(materia*));
@@ -30,17 +31,18 @@ materia* crear_materia(char nombre[50], float nota, char fecha_cursada[50])
     return nueva_materia;
 }
 
-linked_list_materia* crear_linked_list_materia() {
-    linked_list_materia* ll = malloc(sizeof(linked_list_materia*));
+linked_list_materias* crear_linked_list_materias() {
+    linked_list_materias* ll = malloc(sizeof(linked_list_materias*));
     ll->head = NULL;
     ll->tail = NULL;
 }
 
-int lista_materia_vacia(linked_list_materia* ll) {
+int lista_materia_vacia(linked_list_materias* ll) {
     return ll->head == NULL;
 }
 
-void dar_alta_materia(linked_list_materia* ll, char nombre[50], float nota, char fecha_cursada[50]) {
+// Dar de alta materia
+void dar_alta_materia(linked_list_materias* ll, char nombre[50], float nota, char fecha_cursada[50]) {
     
     // Crear el nodo
     materia* nueva_materia = crear_materia(nombre, nota, fecha_cursada);
@@ -60,7 +62,8 @@ void dar_alta_materia(linked_list_materia* ll, char nombre[50], float nota, char
     return;
 }
 
-void modificar_materia(linked_list_materia* ll, char nombre_a_buscar[50], char nuevo_nombre[50], float nueva_nota, char nueva_fecha_cursada[50]) {
+// Modificar materia
+void modificar_materia(linked_list_materias* ll, char nombre_a_buscar[50], char nuevo_nombre[50], float nueva_nota, char nueva_fecha_cursada[50]) {
     materia* materia_actual = ll->head;
 
     while (materia_actual != NULL) {
@@ -79,7 +82,8 @@ void modificar_materia(linked_list_materia* ll, char nombre_a_buscar[50], char n
     printf("Materia '%s' no encontrada.\n", nombre_a_buscar);
 }
 
-void eliminar_materia(linked_list_materia* ll, char nombre[50]) {
+// Eliminar materia
+void eliminar_materia(linked_list_materias* ll, char nombre_a_buscar[50]) {
     // Eliminar primer elemento de la lista
     if (strcmp(nombre_a_buscar, ll->head->nombre) == 0) {
         materia* materia_a_eliminar = ll->head;
@@ -117,7 +121,8 @@ void eliminar_materia(linked_list_materia* ll, char nombre[50]) {
     return;
 }
 
-void listar_materias(linked_list_materia* ll) {
+// Listar materias
+void listar_materias(linked_list_materias* ll) {
     if (lista_materia_vacia(ll)) {
         printf("No hay materias definidas.\n");
     }
