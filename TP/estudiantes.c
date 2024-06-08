@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "materias.c"
+// #include "materias.c"
 
 // [ Estudiante ] funciona como nodo
 typedef struct estudiante {
@@ -187,4 +187,8 @@ linked_list_estudiantes* buscar_estudiantes_rango_de_edad(linked_list_estudiante
     }
 
     return nueva_ll;
+}
+
+void anotarse_en_materia(estudiante* e, char nombre[50], float nota, char fecha_cursada[50]) {
+    dar_alta_materia(e->materias, nombre, nota, fecha_cursada);
 }

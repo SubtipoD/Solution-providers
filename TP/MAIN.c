@@ -1,14 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "linkedList.c"
-#include "variablesDelSistema.c"
-#include "EstudiantesYmaterias.c"
+#include "materias.c"
+#include "estudiantes.c"
+
 /* MATERIAS
 -Dar de alta, modificar, eliminar y listar estudiantes
 -Buscar estudiantes por nombre
 -Buscar estudiantes por rango de edad
 */
 
+/*
 int main()
 {
     linked_list *ll = new_linked_list();
@@ -42,4 +43,24 @@ int main()
     print_linked_list(ll);
     
     return 0;
+}
+*/
+
+int main() {
+    char nombre[50] = "Pepe";
+    int edad = 20;
+
+    linked_list_estudiantes* ll_estudiantes = crear_linked_list_estudiantes();
+    listar_estudiantes(ll_estudiantes);
+
+    dar_alta_estudiante(ll_estudiantes, nombre, edad, NULL);
+    listar_estudiantes(ll_estudiantes);
+    
+    estudiante* e = buscar_estudiante_por_nombre(ll_estudiantes, "Pepe");
+    // printf("EDAD=%d\n", e->edad);
+    anotarse_en_materia(e, "Algebra", 11.0, "10-03-24");
+
+    listar_estudiantes(ll_estudiantes);
+
+    // printf("EDAD=%d\n", e->edad);
 }

@@ -130,9 +130,9 @@ void listar_materias(linked_list_materias* ll) {
     materia* materia_actual = ll->head;
 
     while (materia_actual != NULL) {
-        printf("[%s]\n", materia_actual->nombre);
-        printf("Nota: %.2f\n", materia_actual->nota);
-        printf("Fecha de cursada: %s\n", materia_actual->fecha_cursada);
+        printf("- [%s]\n", materia_actual->nombre);
+        printf("- Nota: %.1f\n", materia_actual->nota);
+        printf("- Fecha de cursada: %s\n", materia_actual->fecha_cursada);
         printf("\n");
 
         materia_actual = materia_actual->next_materia;
