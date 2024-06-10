@@ -9,7 +9,7 @@ typedef struct {
     char nombre[50];
     int codigo;
     int nota; // Nota de la materia (inicialmente -1 para indicar que no ha sido rendida)
-    int aprobado; // 1 si esta aprobada, 0 si no
+    int aprobado; // 1 si está aprobada, 0 si no
 } Materia;
 
 // Estructura para representar un estudiante
@@ -17,7 +17,7 @@ typedef struct {
     char nombre[50];
     int edad;
     Materia* materias[MAX_MATERIAS]; // Lista de punteros a materias
-    int num_materias; // Numero de materias inscritas
+    int num_materias; // Número de materias inscritas
 } Estudiante;
 
 // Nodo de la lista enlazada para estudiantes o materias
@@ -36,6 +36,8 @@ void buscarEstudiantePorEdad(Nodo* listaEstudiantes, int edad);
 void anotarEstudianteEnMateria(Nodo* listaEstudiantes, Nodo* listaMaterias);
 void rendirMateria(Nodo* listaEstudiantes);
 void calcularEstadisticas(Nodo* listaEstudiantes, Nodo* listaMaterias);
+void calcularPromedioEstudiante(Nodo* listaEstudiantes, char nombre[]);
+void calcularPromedioMateria(Nodo* listaEstudiantes, int codigoMateria);
 
 // Funciones para materias
 void altaMateria(Nodo** listaMaterias);
@@ -61,9 +63,11 @@ int main() {
         printf("10. Eliminar materia\n");
         printf("11. Buscar estudiante por nombre\n");
         printf("12. Buscar estudiante por edad\n");
-        printf("13. Calcular estadisticas\n");
-        printf("14. Salir\n");
-        printf("Seleccione una opcion: ");
+        printf("13. Calcular estadísticas\n");
+        printf("14. Calcular promedio de un estudiante\n");
+        printf("15. Calcular promedio de una materia\n");
+        printf("16. Salir\n");
+        printf("Seleccione una opción: ");
         scanf("%d", &opcion);
         
         switch (opcion) {
@@ -117,12 +121,28 @@ int main() {
                 calcularEstadisticas(listaEstudiantes, listaMaterias);
                 break;
             case 14:
+                {
+                    char nombre[50];
+                    printf("Ingrese el nombre del estudiante: ");
+                    scanf("%s", nombre);
+                    calcularPromedioEstudiante(listaEstudiantes, nombre);
+                }
+                break;
+            case 15:
+                {
+                    int codigoMateria;
+                    printf("Ingrese el código de la materia: ");
+                    scanf("%d", &codigoMateria);
+                    calcularPromedioMateria(listaEstudiantes, codigoMateria);
+                }
+                break;
+            case 16:
                 printf("Saliendo...\n");
                 break;
             default:
-                printf("Opcion invalida. Intente de nuevo.\n");
+                printf("Opción inválida. Intente de nuevo.\n");
         }
-    } while (opcion != 14);
+    } while (opcion != 16);
 
     return 0;
 }
@@ -175,7 +195,7 @@ void listarEstudiantes(Nodo* listaEstudiantes) {
         Estudiante* estudiante = (Estudiante*)listaEstudiantes->data;
         printf("Nombre: %s, Edad: %d\n", estudiante->nombre, estudiante->edad);
         for (int i = 0; i < estudiante->num_materias; i++) {
-            printf("\tMateria: %s, Nota: %d, Aprobada: %s\n", estudiante->materias[i]->nombre, estudiante->materias[i]->nota, estudiante->materias[i]->aprobado ? "Si" : "No");
+            printf("\tMateria: %s, Nota: %d, Aprobada: %s\n", estudiante->materias[i]->nombre, estudiante->materias[i]->nota, estudiante->materias[i]->aprobado ? "Sí" : "No");
         }
         listaEstudiantes = listaEstudiantes->next;
     }
@@ -233,7 +253,7 @@ void buscarEstudiantePorNombre(Nodo* listaEstudiantes, char nombre[]) {
         if (strcmp(estudiante->nombre, nombre) == 0) {
             printf("Nombre: %s, Edad: %d\n", estudiante->nombre, estudiante->edad);
             for (int i = 0; i < estudiante->num_materias; i++) {
-                printf("\tMateria: %s, Nota: %d, Aprobada: %s\n", estudiante->materias[i]->nombre, estudiante->materias[i]->nota, estudiante->materias[i]->aprobado ? "Si" : "No");
+                printf("\tMateria: %s, Nota: %d, Aprobada: %s\n", estudiante->materias[i]->nombre, estudiante->materias[i]->nota, estudiante->materias[i]->aprobado ? "Sí" : "No");
             }
             return;
         }
@@ -249,7 +269,7 @@ void buscarEstudiantePorEdad(Nodo* listaEstudiantes, int edad) {
         if (estudiante->edad == edad) {
             printf("Nombre: %s, Edad: %d\n", estudiante->nombre, estudiante->edad);
             for (int i = 0; i < estudiante->num_materias; i++) {
-                printf("\tMateria: %s, Nota: %d, Aprobada: %s\n", estudiante->materias[i]->nombre, estudiante->materias[i]->nota, estudiante->materias[i]->aprobado ? "Si" : "No");
+                printf("\tMateria: %s, Nota: %d, Aprobada: %s\n", estudiante->materias[i]->nombre, estudiante->materias[i]->nota, estudiante->materias[i]->aprobado ? "Sí" : "No");
             }
             encontrado = 1;
         }
@@ -259,14 +279,13 @@ void buscarEstudiantePorEdad(Nodo* listaEstudiantes, int edad) {
         printf("No se encontraron estudiantes con la edad %d.\n", edad);
     }
 }
-
 void anotarEstudianteEnMateria(Nodo* listaEstudiantes, Nodo* listaMaterias) {
     char nombreEstudiante[50];
     int codigoMateria;
 
     printf("Ingrese el nombre del estudiante: ");
     scanf("%s", nombreEstudiante);
-    printf("Ingrese el codigo de la materia: ");
+    printf("Ingrese el código de la materia: ");
     scanf("%d", &codigoMateria);
 
     Nodo* tempEstudiante = listaEstudiantes;
@@ -278,11 +297,22 @@ void anotarEstudianteEnMateria(Nodo* listaEstudiantes, Nodo* listaMaterias) {
                 Materia* materia = (Materia*)tempMateria->data;
                 if (materia->codigo == codigoMateria) {
                     if (estudiante->num_materias < MAX_MATERIAS) {
-                        estudiante->materias[estudiante->num_materias] = materia;
+                        // Crear una copia de la materia para el estudiante
+                        Materia* copiaMateria = (Materia*)malloc(sizeof(Materia));
+                        if (copiaMateria == NULL) {
+                            printf("Error: No se pudo asignar memoria para la copia de la materia.\n");
+                            return;
+                        }
+                        strcpy(copiaMateria->nombre, materia->nombre);
+                        copiaMateria->codigo = materia->codigo;
+                        copiaMateria->nota = -1; // Inicialmente sin nota
+                        copiaMateria->aprobado = 0; // Inicialmente no aprobada
+
+                        estudiante->materias[estudiante->num_materias] = copiaMateria;
                         estudiante->num_materias++;
                         printf("Estudiante %s anotado en la materia %s.\n", estudiante->nombre, materia->nombre);
                     } else {
-                        printf("El estudiante ya esta inscrito en el maximo de materias permitidas.\n");
+                        printf("El estudiante ya está inscrito en el máximo de materias permitidas.\n");
                     }
                     return;
                 }
@@ -302,7 +332,7 @@ void rendirMateria(Nodo* listaEstudiantes) {
 
     printf("Ingrese el nombre del estudiante: ");
     scanf("%s", nombreEstudiante);
-    printf("Ingrese el codigo de la materia: ");
+    printf("Ingrese el código de la materia: ");
     scanf("%d", &codigoMateria);
     printf("Ingrese la nota: ");
     scanf("%d", &nota);
@@ -337,7 +367,7 @@ void altaMateria(Nodo** listaMaterias) {
 
     printf("Ingrese el nombre de la materia: ");
     scanf("%s", nuevaMateria->nombre);
-    printf("Ingrese el codigo de la materia: ");
+    printf("Ingrese el código de la materia: ");
     scanf("%d", &nuevaMateria->codigo);
     nuevaMateria->nota = -1; // Inicialmente sin nota
     nuevaMateria->aprobado = 0; // Inicialmente no aprobada
@@ -374,14 +404,14 @@ void listarMaterias(Nodo* listaMaterias) {
     printf("Lista de Materias:\n");
     while (listaMaterias != NULL) {
         Materia* materia = (Materia*)listaMaterias->data;
-        printf("Nombre: %s, Codigo: %d\n", materia->nombre, materia->codigo);
+        printf("Nombre: %s, Código: %d\n", materia->nombre, materia->codigo);
         listaMaterias = listaMaterias->next;
     }
 }
 
 void modificarMateria(Nodo* listaMaterias) {
     int codigo;
-    printf("Ingrese el codigo de la materia a modificar: ");
+    printf("Ingrese el código de la materia a modificar: ");
     scanf("%d", &codigo);
 
     Nodo* temp = listaMaterias;
@@ -400,7 +430,7 @@ void modificarMateria(Nodo* listaMaterias) {
 
 void eliminarMateria(Nodo** listaMaterias) {
     int codigo;
-    printf("Ingrese el codigo de la materia a eliminar: ");
+    printf("Ingrese el código de la materia a eliminar: ");
     scanf("%d", &codigo);
 
     Nodo *temp = *listaMaterias, *prev = NULL;
@@ -466,7 +496,7 @@ void calcularEstadisticas(Nodo* listaEstudiantes, Nodo* listaMaterias) {
         tempMateria = tempMateria->next;
     }
 
-    printf("\nEstadisticas:\n");
+    printf("\nEstadísticas:\n");
     printf("Total de estudiantes: %d\n", totalEstudiantes);
     printf("Total de materias: %d\n", totalMaterias);
     for (int i = 0; i < numMaterias; i++) {
@@ -475,16 +505,69 @@ void calcularEstadisticas(Nodo* listaEstudiantes, Nodo* listaMaterias) {
     printf("Total de materias aprobadas: %d\n", totalAprobados);
     printf("Total de materias reprobadas: %d\n", totalReprobados);
 
-    // Determinar la materia mas concurrida
     int maxInscritos = 0;
-    char* materiaMasConcurrida = NULL;
+    char* materiaMasConcurrida;
     for (int i = 0; i < numMaterias; i++) {
         if (estudiantesPorMateria[i] > maxInscritos) {
             maxInscritos = estudiantesPorMateria[i];
             materiaMasConcurrida = nombresMaterias[i];
         }
     }
-    if (materiaMasConcurrida) {
-        printf("La materia mas concurrida es: %s con %d estudiantes.\n", materiaMasConcurrida, maxInscritos);
+    if (numMaterias > 0) {
+        printf("La materia más concurrida es: %s con %d estudiantes.\n", materiaMasConcurrida, maxInscritos);
+    }
+}
+
+void calcularPromedioEstudiante(Nodo* listaEstudiantes, char nombre[]) {
+    Nodo* tempEstudiante = listaEstudiantes;
+    while (tempEstudiante != NULL) {
+        Estudiante* estudiante = (Estudiante*)tempEstudiante->data;
+        if (strcmp(estudiante->nombre, nombre) == 0) {
+            if (estudiante->num_materias == 0) {
+                printf("El estudiante %s no está inscrito en ninguna materia.\n", nombre);
+                return;
+            }
+            int sumaNotas = 0;
+            int materiasRendidas = 0;
+            for (int i = 0; i < estudiante->num_materias; i++) {
+                if (estudiante->materias[i]->nota != -1) {
+                    sumaNotas += estudiante->materias[i]->nota;
+                    materiasRendidas++;
+                }
+            }
+            if (materiasRendidas == 0) {
+                printf("El estudiante %s no ha rendido ninguna materia.\n", nombre);
+            } else {
+                double promedio = (double)sumaNotas / materiasRendidas;
+                printf("El promedio de notas del estudiante %s es: %.2f\n", nombre, promedio);
+            }
+            return;
+        }
+        tempEstudiante = tempEstudiante->next;
+    }
+    printf("Estudiante no encontrado.\n");
+}
+
+void calcularPromedioMateria(Nodo* listaEstudiantes, int codigoMateria) {
+    int sumaNotas = 0;
+    int estudiantesRendidos = 0;
+
+    Nodo* tempEstudiante = listaEstudiantes;
+    while (tempEstudiante != NULL) {
+        Estudiante* estudiante = (Estudiante*)tempEstudiante->data;
+        for (int i = 0; i < estudiante->num_materias; i++) {
+            if (estudiante->materias[i]->codigo == codigoMateria && estudiante->materias[i]->nota != -1) {
+                sumaNotas += estudiante->materias[i]->nota;
+                estudiantesRendidos++;
+            }
+        }
+        tempEstudiante = tempEstudiante->next;
+    }
+
+    if (estudiantesRendidos == 0) {
+        printf("No se ha rendido la materia con código %d.\n", codigoMateria);
+    } else {
+        double promedio = (double)sumaNotas / estudiantesRendidos;
+        printf("El promedio de notas para la materia con código %d es: %.2f\n", codigoMateria, promedio);
     }
 }
