@@ -91,7 +91,7 @@ int main() {
             case 15:
                 {
                     int codigoMateria;
-                    printf("Ingrese  la materia: ");
+                    printf("Ingrese el codigo de la materia: ");
                     scanf("%d", &codigoMateria);
                     calcularPromedioMateria(listaEstudiantes, codigoMateria);
                 }
