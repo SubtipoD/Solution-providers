@@ -141,7 +141,7 @@ void anotarEstudianteEnMateria(Nodo* listaEstudiantes, Nodo* listaMaterias) {
 
     printf("Ingrese el nombre del estudiante: ");
     scanf("%s", nombreEstudiante);
-    printf("Ingrese el cdigo de la materia: ");
+    printf("Ingrese el codigo de la materia: ");
     scanf("%d", &codigoMateria);
 
     Nodo* tempEstudiante = listaEstudiantes;
@@ -188,7 +188,7 @@ void rendirMateria(Nodo* listaEstudiantes) {
 
     printf("Ingrese el nombre del estudiante: ");
     scanf("%s", nombreEstudiante);
-    printf("Ingrese el cdigo de la materia: ");
+    printf("Ingrese el codigo de la materia: ");
     scanf("%d", &codigoMateria);
     printf("Ingrese la nota: ");
     scanf("%d", &nota);
@@ -223,7 +223,7 @@ void altaMateria(Nodo** listaMaterias) {
 
     printf("Ingrese el nombre de la materia: ");
     scanf("%s", nuevaMateria->nombre);
-    printf("Ingrese el cdigo de la materia: ");
+    printf("Ingrese el codigo de la materia: ");
     scanf("%d", &nuevaMateria->codigo);
     nuevaMateria->nota = -1; // Inicialmente sin nota
     nuevaMateria->aprobado = 0; // Inicialmente no aprobada
@@ -260,14 +260,14 @@ void listarMaterias(Nodo* listaMaterias) {
     printf("Lista de Materias:\n");
     while (listaMaterias != NULL) {
         Materia* materia = (Materia*)listaMaterias->data;
-        printf("Nombre: %s, Cdigo: %d\n", materia->nombre, materia->codigo);
+        printf("Nombre: %s, Codigo: %d\n", materia->nombre, materia->codigo);
         listaMaterias = listaMaterias->next;
     }
 }
 
 void modificarMateria(Nodo* listaMaterias) {
     int codigo;
-    printf("Ingrese el cdigo de la materia a modificar: ");
+    printf("Ingrese el codigo de la materia a modificar: ");
     scanf("%d", &codigo);
 
     Nodo* temp = listaMaterias;
@@ -286,7 +286,7 @@ void modificarMateria(Nodo* listaMaterias) {
 
 void eliminarMateria(Nodo** listaMaterias) {
     int codigo;
-    printf("Ingrese el cdigo de la materia a eliminar: ");
+    printf("Ingrese el codigo de la materia a eliminar: ");
     scanf("%d", &codigo);
 
     Nodo *temp = *listaMaterias, *prev = NULL;
@@ -421,9 +421,9 @@ void calcularPromedioMateria(Nodo* listaEstudiantes, int codigoMateria) {
     }
 
     if (estudiantesRendidos == 0) {
-        printf("No se ha rendido la materia con cdigo %d.\n", codigoMateria);
+        printf("No se ha rendido la materia con codigo %d.\n", codigoMateria);
     } else {
         double promedio = (double)sumaNotas / estudiantesRendidos;
-        printf("El promedio de notas para la materia con cdigo %d es: %.2f\n", codigoMateria, promedio);
+        printf("El promedio de notas para la materia con codigo %d es: %.2f\n", codigoMateria, promedio);
     }
 }
